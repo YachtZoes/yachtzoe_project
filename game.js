@@ -99,7 +99,7 @@ function checkForSavedGames() {
           localStorage.setItem(savedGameDataKey, newScoreString);
           break;
         } else if (loadGameAnswer === 'no' || loadGameAnswer === 'n') {
-          alert('Warning your old game will be overwritten when you make another save');
+          alert('Ok. We will get rid of your saved game');
           // remove an old saved game.
           checkForOldSavedGame(savedGamesArray, currentPlayerCheck, true);
           // saved game removed from array, now put any remaining game data back
@@ -277,6 +277,15 @@ function rollDiceHandler() {
   holds.setAttribute('class', 'show_me');
   var diceLI = document.getElementsByClassName('the_dice');
   var holdCBox = document.getElementsByClassName('hold_dice');
+  var diceImgs = document.getElementsByClassName('dice_img');
+
+  setTimeout(function(){
+    for (var i = 0; i < diceLI.length; i++){
+      if (!holdCBox[i].checked) {
+        diceImgs[i].classList.add('rolling');
+      }
+    }
+  }, 50);
 
   for (var d = 0; d < diceLI.length; d++) {
     if (!holdCBox[d].checked) {
@@ -284,12 +293,28 @@ function rollDiceHandler() {
       diceLI[d].textContent = '';
       var img = document.createElement('img');
       img.setAttribute('src', diceImages[randomDie - 1]);
+      img.classList.add('dice_img');
+      img.classList.add('rolling');
       diceLI[d].appendChild(img);
       dice[d] = randomDie;
     } else {
       // nothing?? Is there anything to do in this case?
     }
   }
+
+  setTimeout(function() {
+    for (var j = 0; j < diceLI.length; j++){
+      if (!holdCBox[j].checked) {
+        diceImgs[j].classList.remove('rolling');
+      }
+    }
+  }, 50);
+
+  // for (d = 0; d < diceLI.length; d++) {
+  //   if (!holdCBox[d].checked) {
+  //     diceLI[d].classList.remove('rolling');
+  //   }
+  // }
 
   calcScoreChoices();
   updateScoreTable();

@@ -324,6 +324,13 @@ td.already_scored:hover {
 
 .the_dice img {
 	width: auto;
+	transition: 800ms;
+}
+
+.the_dice img.rolling {
+	-webkit-transform: rotateZ(-360deg) scale(0.2);
+	-ms-transform: rotateZ(-360deg) scale(0.2);
+	transform: rotateZ(-360deg) scale(0.1);
 }
 
 #hold_dice_array {
