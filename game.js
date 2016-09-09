@@ -283,21 +283,78 @@ function rollDiceHandler() {
   // handle the clicks of the roll dice button.
 
   var diceLI = document.getElementsByClassName('the_dice');
+  var diceImgs = document.getElementsByClassName('dice_img');
+  var diceImg;
+
+  setTimeout(function() {
+    for(var i = 0; i < diceLI.length; i++){
+      if (!diceImgs[i].classList.contains('fade')){
+        diceImgs[i].classList.add('rolling');
+      }
+    }
+  }, 50);
 
   for (var d = 0; d < diceLI.length; d++) {
-    var diceImg = document.getElementById('dice' + (d + 1));
+    diceImg = document.getElementById('dice' + (d + 1));
     if (!diceImg.classList.contains('fade')) {
       var randomDie = randomNbrGen();
       diceLI[d].textContent = '';
       var img = document.createElement('img');
       img.setAttribute('src', diceImages[randomDie - 1]);
       img.setAttribute('id', 'dice' + (d + 1));
+      img.classList.add('dice_img');
+      img.classList.add('rolling');
       diceLI[d].appendChild(img);
       dice[d] = randomDie;
     } else {
       // nothing?? Is there anything to do in this case?
     }
   }
+
+  setTimeout(function() {
+    for(i = 0; i < diceLI.length; i++){
+      if (!diceImgs[i].classList.contains('fade')){
+        diceImgs[i].classList.remove('rolling');
+      }
+    }
+  }, 50);
+
+  // var holds = document.getElementById('hold_dice_array');
+  // holds.setAttribute('class', 'show_me');
+  // var diceLI = document.getElementsByClassName('the_dice');
+  // var holdCBox = document.getElementsByClassName('hold_dice');
+  // var diceImgs = document.getElementsByClassName('dice_img');
+  //
+  // setTimeout(function(){
+  //   for (var i = 0; i < diceLI.length; i++){
+  //     if (!holdCBox[i].checked) {
+  //       diceImgs[i].classList.add('rolling');
+  //     }
+  //   }
+  // }, 50);
+  //
+  // for (var d = 0; d < diceLI.length; d++) {
+  //   if (!holdCBox[d].checked) {
+  //     var randomDie = randomNbrGen();
+  //     diceLI[d].textContent = '';
+  //     var img = document.createElement('img');
+  //     img.setAttribute('src', diceImages[randomDie - 1]);
+  //     img.classList.add('dice_img');
+  //     img.classList.add('rolling');
+  //     diceLI[d].appendChild(img);
+  //     dice[d] = randomDie;
+  //   } else {
+  //     // nothing?? Is there anything to do in this case?
+  //   }
+  // }
+  //
+  // setTimeout(function() {
+  //   for (var j = 0; j < diceLI.length; j++){
+  //     if (!holdCBox[j].checked) {
+  //       diceImgs[j].classList.remove('rolling');
+  //     }
+  //   }
+  // }, 50);
 
   calcScoreChoices();
   updateScoreTable();
