@@ -200,7 +200,7 @@ function turn() {
   };
 
   for (var h = 0; h < tempDice.length; h++) {
-    tempDice[h].setAttribute('class', '');
+    tempDice[h].classList.remove('fade');
   };
 
   //decides which player to display at the top of screen
@@ -283,21 +283,41 @@ function rollDiceHandler() {
   // handle the clicks of the roll dice button.
 
   var diceLI = document.getElementsByClassName('the_dice');
+  var diceImgs = document.getElementsByClassName('dice_img');
+  var diceImg;
+
+  setTimeout(function() {
+    for(var i = 0; i < diceLI.length; i++){
+      if (!diceImgs[i].classList.contains('fade')){
+        diceImgs[i].classList.add('rolling');
+      }
+    }
+  }, 50);
 
   for (var d = 0; d < diceLI.length; d++) {
-    var diceImg = document.getElementById('dice' + (d + 1));
+    diceImg = document.getElementById('dice' + (d + 1));
     if (!diceImg.classList.contains('fade')) {
       var randomDie = randomNbrGen();
       diceLI[d].textContent = '';
       var img = document.createElement('img');
       img.setAttribute('src', diceImages[randomDie - 1]);
       img.setAttribute('id', 'dice' + (d + 1));
+      img.classList.add('dice_img');
+      img.classList.add('rolling');
       diceLI[d].appendChild(img);
       dice[d] = randomDie;
     } else {
       // nothing?? Is there anything to do in this case?
     }
   }
+
+  setTimeout(function() {
+    for(i = 0; i < diceLI.length; i++){
+      if (!diceImgs[i].classList.contains('fade')){
+        diceImgs[i].classList.remove('rolling');
+      }
+    }
+  }, 50);
 
   calcScoreChoices();
   updateScoreTable();
