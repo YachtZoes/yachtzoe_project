@@ -200,7 +200,7 @@ function turn() {
   };
 
   for (var h = 0; h < tempDice.length; h++) {
-    tempDice[h].setAttribute('class', '');
+    tempDice[h].classList.remove('fade');
   };
 
   //decides which player to display at the top of screen
