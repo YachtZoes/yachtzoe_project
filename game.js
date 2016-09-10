@@ -185,7 +185,7 @@ turn();
 
 //this function determines whos turn it is. It renders a message at the top of the dice area and returns an integer that corresponds to the player in thePlayers array;
 function turn() {
-  //ensures that the player cannot hold any of the duce from the previous turn
+  //ensures that the player cannot hold any of the dice from the previous turn
 
   //reactivates roll button
   var rollButton = document.getElementById('roll_dice');
@@ -273,10 +273,13 @@ for (var g = 0; g < LIdice.length; g++) {
 }
 
 function holdDiceAction() {
-  var diceName = event.target.getAttribute('id');
-  console.log(event.target, diceName);
-  var diceId = document.getElementById(diceName);
-  diceId.classList.toggle('fade');
+  // no holding allowed for the first roll...
+  if (numberOfRolls > 0) {
+    var diceName = event.target.getAttribute('id');
+    console.log(event.target, diceName);
+    var diceId = document.getElementById(diceName);
+    diceId.classList.toggle('fade');
+  }
 }
 
 function rollDiceHandler() {
