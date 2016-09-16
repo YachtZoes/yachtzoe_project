@@ -1,4 +1,6 @@
 'use strict';
+//if you have an array that has this many entries break it down to multiple lines
+//usually of two or three items.
 
 // global variables
 var diceImages = ['images/dice_one.png', 'images/dice_two.png', 'images/dice_three.png', 'images/dice_four.png', 'images/dice_five.png', 'images/dice_six.png'];
@@ -75,6 +77,9 @@ var savedGamesArray = JSON.parse(savedGamesString);
 //check to see if annything is in saved games array
 
 function checkForSavedGames() {
+  //instead of having a conditional with an empty block just to get to the else
+  //you could put if (savedGamesArray !== null) or even better, since null is a
+  //falsey value, if (!savedGamesArray)
   if(savedGamesArray === null) {
   } else {
     for(i = 0; i < savedGamesArray.length; i++) {
@@ -282,6 +287,12 @@ function holdDiceAction() {
   }
 }
 
+//this function has a couple set timeouts inline with other code. Be careful
+//about this. Timeouts can lead to unpredictable behavior and are best used
+//sparingly, getting into why is a little beyond the scope of this class but
+//the short of it is that your synchronous code will execute first. For adding
+//a class and then removing it you would likely have been better suited setting
+//the second timeout inside the callback of the first one.
 function rollDiceHandler() {
   // handle the clicks of the roll dice button.
 
@@ -340,10 +351,26 @@ function randomNbrGen() {
 function calcScoreChoices () {
   // logic to calculate the possible scores to apply
   // zero out the array before starting.
+
+  // I'm guessing what you're doing here is keeping track of each possible roll
+  // as an index of an array. The tricky thing here is that it's not really
+  // apparent which of the rolls these numbers correspond to. You kind of
+  // just have to know. For situations like this it might be better to use
+  // an object.
+  // like {fullHouse: 0, fourOfAKind: 0, smallStraight: 0}
+  // It's effectively the same thing but semantically it's a lot more clear.
+
   potentialScores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   var countOfDice = [0, 0, 0, 0, 0, 0];
 
   for (var i = 0; i < dice.length; i++) {
+    // it seems like there's a pattern here as far as how dice[i] corresponds
+    // to potentialScores and countOfDice.  Looks like you could have taken out
+    // several lines by refactoring to:
+    // var roll = dice[i];
+    // potententialScores[roll - 1] += roll;
+    // countOfDice[roll - 1] += 1;
+
     if (dice[i] === 1) {
       potentialScores[0] += 1;
       countOfDice[0] += 1;
@@ -389,6 +416,15 @@ function calcScoreChoices () {
   if ((countOfDice.some(is3Count) && countOfDice.some(is2Count)) || countOfDice.some(is5Count)) {
     potentialScores[8] = 25;
   };
+
+  // I'm sure it would take some playing around with but I think you could have
+  // written a helper function to determine whether or not something is a straight
+  // something like:
+  // remove duplicate values
+  // if the length is less than 4 return false
+  // sort the array
+  // if there are any non consecutive values return false
+  // if the length is 4 it's a small straight if it's 5 it's both
 
   // Small Straight - four consecutive dice, 30 pts
   if ( ((countOfDice[0] === 1 || countOfDice[0] === 2) && (countOfDice[1] === 1 || countOfDice[1] === 2) && (countOfDice[2] === 1 || countOfDice[2] === 2) && (countOfDice[3] === 1 || countOfDice[3] === 2)) || ((countOfDice[1] === 1 || countOfDice[1] === 2) && (countOfDice[2] === 1 || countOfDice[2] === 2) && (countOfDice[3] === 1 || countOfDice[3] === 2) && (countOfDice[4] === 1 || countOfDice[4] === 2)) || ((countOfDice[2] === 1 || countOfDice[2] === 2) && (countOfDice[3] === 1 || countOfDice[3] === 2) && (countOfDice[4] === 1 || countOfDice[4] === 2) && (countOfDice[5] === 1 || countOfDice[5] === 2)) || countOfDice.some(is5Count) ){

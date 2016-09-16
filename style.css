@@ -1,3 +1,5 @@
+/* Your reset could be added in another style sheet and included by
+  adding a style tag above the one for this sheet */
 /* CSS Styling - starts with a Meyer Reset */
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -95,7 +97,7 @@ nav {
 	border-left:2px solid #7b0c0c;
 	border-top:2px solid #d22c2c;
 }
-
+/* prefer hypehns or underscores to camelCase in CSS */
 .navLink {
 	margin-left:50px;
 	text-align:center;
